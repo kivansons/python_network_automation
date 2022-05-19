@@ -1,6 +1,6 @@
 # Notes for class 1 of python network automation class
-## homework
-
+## Homework
+### Git
 1. Create a GitHub account (it's free for public repositories).
 
 2. Create a new repository in GitHub for this class. Add a README file and a Python .gitignore file.
@@ -76,10 +76,16 @@ Create a merge conflict.
 
 More changes to readme.​
 -----------------
-```
 # Then I need to add and commit the file
 $ git add README.md 
 $ git commit -m "Fixing merge conflict"
 [main e87901a] Fixing merge conflict
+```
 
+### Netmiko
+1. In the lab environment use Netmiko to connect to one of the Cisco NX-OS devices. You can find the IP addresses and username/passwords of the Cisco devices in the 'Lab Environment' email or alternatively in the ~/.netmiko.yml file. Simply print the router prompt back from this device to verify you are connecting to the device properly.
+
+2. Add a second NX-OS device to your first exercise. Make sure you are using dictionaries to represent the two NX-OS devices. Additionally, use a for-loop to accomplish the Netmiko connection creation. Once again print the prompt back from the devices that you connected to.
+
+3. For one of the Cisco IOS devices, use Netmiko and the send_command() method to retrieve 'show version'. Save this output to a file in the current working directory.
 
