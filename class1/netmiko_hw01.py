@@ -10,12 +10,11 @@ from getpass import getpass
 
 nx_password = getpass()
 nx01 = {
-  "host": "nxos1.lasthop.io",
-  "username": "pyclass",
-  "password": nx_password,
-  "device_type": "cisco_nxos",
+    "host": "nxos1.lasthop.io",
+    "username": "pyclass",
+    "password": nx_password,
+    "device_type": "cisco_nxos",
 }
 
 net_connect = ConnectHandler(**nx01)
 print(net_connect.find_prompt())
-
