@@ -25,5 +25,5 @@ nx02 = {
 }
 devices = [nx01, nx02]
 for device in devices:
-    connection = ConnectHandler(device)
+    connection = ConnectHandler(**device)
     print(connection.find_prompt())
