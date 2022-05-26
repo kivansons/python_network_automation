@@ -29,6 +29,8 @@ start_time = datetime.now()
 output = net_connect.send_command(show_lldp_command)
 end_time = datetime.now()
 elapsed_time = end_time - start_time
+print("\nShow lldp output")
+print("-" * 80)
 print(output)
 print(f"Show lldp command with global_delay_factor=2 took {elapsed_time} to execute")
 
@@ -37,5 +39,7 @@ start_time = datetime.now()
 output = net_connect.send_command(show_lldp_command, delay_factor=8)
 end_time = datetime.now()
 elapsed_time = end_time - start_time
+print("\nShow lldp output")
+print("-" * 80)
 print(output)
 print(f"Show lldp command with delay_factor=8 took {elapsed_time} to execute")
