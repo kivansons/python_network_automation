@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Use the extended 'ping' command and Netmiko on the 'cisco4' router.
  This should prompt you for additional information as follows:
  
@@ -26,77 +27,60 @@ Once again specify a target IP address of '8.8.8.8'.
 from netmiko import ConnectHandler
 from getpass import getpass
 
+lab_password = getpass()
 hosts = {
     "cisco3": {
         "host": "cisco3.lasthop.io",
-        "snmp_port": 161,
-        "ssh_port": 22,
         "username": "pyclass",
-        "password": getpass(prompt="Cisco3 Password: "),
+        "password": lab_password,
         "device_type": "cisco_ios",
     },
     "cisco4": {
         "host": "cisco4.lasthop.io",
-        "snmp_port": 161,
-        "ssh_port": 22,
         "username": "pyclass",
-        "password": getpass(prompt="Cisco4 Password: "),
+        "password": lab_password,
         "device_type": "cisco_ios",
     },
     "arista1": {
         "host": "arista1.lasthop.io",
-        "ssh_port": 22,
-        "eapi_port": 443,
         "username": "pyclass",
-        "password": getpass(prompt="Arista1 Password: "),
+        "password": lab_password,
         "device_type": "arista_eos",
     },
     "arista2": {
         "host": "arista2.lasthop.io",
-        "ssh_port": 22,
-        "eapi_port": 443,
         "username": "pyclass",
-        "password": getpass(prompt="Arista2 Password: "),
+        "password": lab_password,
         "device_type": "arista_eos",
     },
     "arista3": {
         "host": "arista3.lasthop.io",
-        "ssh_port": 22,
-        "eapi_port": 443,
         "username": "pyclass",
-        "password": getpass(prompt="Arista3 Password: "),
+        "password": lab_password,
         "device_type": "arista_eos",
     },
     "arista4": {
         "host": "arista4.lasthop.io",
-        "ssh_port": 22,
-        "eapi_port": 443,
         "username": "pyclass",
-        "password": getpass(prompt="Arista4 Password: "),
+        "password": lab_password,
         "device_type": "arista_eos",
     },
     "srx2": {
         "host": "srx2.lasthop.io",
-        "ssh_port": 22,
-        "netconf_port": 830,
         "username": "pyclass",
-        "password": getpass(prompt="srx2 Password: "),
+        "password": lab_password,
         "device_type": "juniper",
     },
     "nxos1": {
         "host": "nxos1.lasthop.io",
-        "ssh_port": 22,
-        "nxapi_port": 8443,
         "username": "pyclass",
-        "password": getpass(prompt="nsos1 Password: "),
+        "password": lab_password,
         "device_type": "cisco_nxos",
     },
     "nxos2": {
         "host": "nxos2.lasthop.io",
-        "ssh_port": 22,
-        "nxapi_port": 8443,
         "username": "pyclass",
-        "password": getpass(prompt="nxos2 Password: "),
+        "password": lab_password,
         "device_type": "cisco_nxos",
     },
 }
