@@ -124,10 +124,10 @@ print(output)
 
 # Send ping command to cisco4 via send_command and use "expect_string" arg to detect prompt
 output = ""
-for i, command in enumerate(ping_command):
+for command, expected_string in zip(ping_command, ping_expected_string):
     output += net_connect.send_command(
         command,
-        expect_string=ping_expected_string[i],
+        expect_string=expected_string,
         strip_prompt=False,
         strip_command=False,
     )
