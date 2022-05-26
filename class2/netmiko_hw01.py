@@ -87,3 +87,19 @@ hosts = {
 
 net_connect = ConnectHandler(**hosts["cisco4"])
 print(net_connect.find_prompt())
+
+ping_command = [
+    "ping",
+    "ip",
+    "8.8.8.8",
+    "5",
+    "100",
+    "2",
+    "n",
+    "n",
+]
+
+output = ""
+for command in ping_command:
+    output += net_connect.send_command_timing(command, strip_prompt=False, strip_command=False)
+print(output)
