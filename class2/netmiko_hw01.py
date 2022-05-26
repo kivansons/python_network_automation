@@ -104,7 +104,7 @@ ping_expected_string = [
     "Repeat count",
     "Datagram size",
     "Timeout in seconds",
-    "Extended Commands",
+    "Extended commands",
     "Sweep range",
     "#",
 ]
