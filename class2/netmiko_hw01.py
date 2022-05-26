@@ -24,6 +24,7 @@ b. Use send_command() and the expect_string argument to handle the additional pr
 Once again specify a target IP address of '8.8.8.8'.
 
  """
+from ast import Str
 from netmiko import ConnectHandler
 from getpass import getpass
 
@@ -85,9 +86,7 @@ hosts = {
     },
 }
 
-net_connect = ConnectHandler(**hosts["cisco4"])
-print(net_connect.find_prompt())
-
+# ping command and directives
 ping_command = [
     "ping",
     "ip",
@@ -98,8 +97,39 @@ ping_command = [
     "n",
     "n",
 ]
+# expected string response for ping_command of same index
+ping_expected_string = [
+    "Protocol",
+    "Target IP address",
+    "Repeat count",
+    "Datagram size",
+    "Timeout in seconds",
+    "Extended Commands",
+    "Sweep range",
+    "#",
+]
 
+# Establish connection to cisco4 and print prompt
+net_connect = ConnectHandler(**hosts["cisco4"])
+print(net_connect.find_prompt())
+
+# Send ping command to cisco4 via send_command_timing method
 output = ""
 for command in ping_command:
-    output += net_connect.send_command_timing(command, strip_prompt=False, strip_command=False)
+    output += net_connect.send_command_timing(
+        command, strip_prompt=False, strip_command=False
+    )
+print("\nOutput using send_command_timing method is: ")
+print(output)
+
+# Send ping command to cisco4 via send_command and use "expect_string" arg to detect prompt
+output = ""
+for i, command in enumerate(ping_command):
+    output += net_connect.send_command(
+        command,
+        expect_string=ping_expected_string[i],
+        strip_prompt=False,
+        strip_command=False,
+    )
+print("\nOutput using send_command method is: ")
 print(output)
