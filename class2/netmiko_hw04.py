@@ -26,7 +26,7 @@ cisco3_fast = {
     "username": "pyclass",
     "password": getpass(prompt="Cisco3 Password: "),
     "device_type": "cisco_ios",
-    "fast-cli": True,
+    "fast_cli": True,
 }
 
 dns_config = [
