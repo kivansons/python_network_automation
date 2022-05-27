@@ -40,4 +40,9 @@ show_lldp_output = net_connect.send_command("show lldp neighbors", use_textfsm=T
 print("Show LLDP neighbor command")
 print("-" * 80)
 pprint(show_lldp_output)
-print(show_lldp_output[0]["neighbor_interface"])
+print(
+    "{} is connected to port {} of {}".format(
+        cisco4.get("host"),
+        show_lldp_output[0]["neighbor_interface"],
+        show_lldp_output[0]["neighbor"])
+)
