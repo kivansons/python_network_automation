@@ -20,6 +20,7 @@ cisco3 = {
     "username": "pyclass",
     "password": lab_password,
     "device_type": "cisco_ios",
+    "fast_cli": False,
 }
 cisco3_fast = {
     "host": "cisco3.lasthop.io",
