@@ -10,21 +10,21 @@ Experiment with fast_cli=True to see how long the script takes to execute (with 
 Verify DNS lookups on the router are now working by executing 'ping google.com'.
 Verify from this that you receive a ping response back.
 """
-from tracemalloc import start
 from netmiko import ConnectHandler
 from getpass import getpass
 from datetime import datetime
 
+lab_password = getpass(prompt="Cisco3 Password: ")
 cisco3 = {
     "host": "cisco3.lasthop.io",
     "username": "pyclass",
-    "password": getpass(prompt="Cisco3 Password: "),
+    "password": lab_password,
     "device_type": "cisco_ios",
 }
 cisco3_fast = {
     "host": "cisco3.lasthop.io",
     "username": "pyclass",
-    "password": getpass(prompt="Cisco3 Password: "),
+    "password": lab_password,
     "device_type": "cisco_ios",
     "fast_cli": True,
 }
@@ -54,9 +54,10 @@ output = ""
 start_time = datetime.now()
 output = net_connect_fast.send_config_set(dns_config)
 end_time = datetime.now()
+net_connect_fast.disconnect()
 elapsed_time_fast = end_time - start_time
 elapsed_time_delta = elapsed_time - elapsed_time_fast
 print(output)
 print(
-    f"send_config_set fast-cli=False took {elapsed_time_fast} to execute {elapsed_time_delta} faster"
+    f"send_config_set fast_cli=True took {elapsed_time_fast} to execute {elapsed_time_delta} faster"
 )
