@@ -1,0 +1,14 @@
+vlan 100
+name kiwi
+!
+vlan 200
+name peach
+!
+vlan 300
+name pear
+!
+vlan 400
+name apple
+!
+vlan 500
+name banana
