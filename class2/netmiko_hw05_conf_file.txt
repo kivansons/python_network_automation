@@ -1,14 +1,14 @@
-vlan 100
-name kiwi
+vlan 666
+name thebeast
 !
-vlan 200
-name peach
+vlan 777
+name chmod777
 !
-vlan 300
-name pear
+vlan 808
+name roland808
 !
-vlan 400
-name apple
+vlan 314
+name pi
 !
-vlan 500
-name banana
+vlan 386
+name intel386
