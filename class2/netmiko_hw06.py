@@ -31,19 +31,18 @@ cisco4 = {
 
 # a. Print the current prompt using find_prompt()
 net_connect = ConnectHandler(**cisco4)
-net_connect.find_prompt()
+print(net_connect.find_prompt())
+
 
 # b. Execute the config_mode() method and print the new prompt using find_prompt()
 net_connect.config_mode()
 print("\nConfig mode method output:")
-sleep(1)
-net_connect.find_prompt()
+print(net_connect.find_prompt())
 
 # c. Execute the exit_config_mode() method and print the new prompt using find_prompt()
 net_connect.exit_config_mode()
 print("\nExit_config_mode method output:")
-sleep(1)
-net_connect.find_prompt()
+print(net_connect.find_prompt())
 
 # d. Use the write_channel() method to send the 'disable' command down the SSH channel.
 # Note, write_channel is a low level method so it requires that you add a newline to the end of your 'disable' command.
@@ -61,7 +60,6 @@ print(read_output)
 # This 'secret' is the same as the standard lab password.
 net_connect.enable()
 print("\nEnable method output:")
-sleep(1)
-net_connect.find_prompt()
+print(net_connect.find_prompt())
 
 # g. After you are done executing your script, look at the 'my_output.txt' file to see what is included in the session_log.
