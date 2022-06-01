@@ -35,12 +35,14 @@ net_connect.find_prompt()
 
 # b. Execute the config_mode() method and print the new prompt using find_prompt()
 net_connect.config_mode()
-print("Config mode method output:")
+print("\nConfig mode method output:")
+sleep(1)
 net_connect.find_prompt()
 
 # c. Execute the exit_config_mode() method and print the new prompt using find_prompt()
 net_connect.exit_config_mode()
-print("Exit_config_mode method output:")
+print("\nExit_config_mode method output:")
+sleep(1)
 net_connect.find_prompt()
 
 # d. Use the write_channel() method to send the 'disable' command down the SSH channel.
@@ -58,7 +60,8 @@ print(read_output)
 # The enable() method will use the 'secret' defined in your device definition.
 # This 'secret' is the same as the standard lab password.
 net_connect.enable()
-print("Enable method output:")
+print("\nEnable method output:")
+sleep(1)
 net_connect.find_prompt()
 
 # g. After you are done executing your script, look at the 'my_output.txt' file to see what is included in the session_log.
