@@ -4,7 +4,7 @@ Using SSH and netmiko connect to the Cisco4 router.
 In your device definition, specify both an 'secret' and a 'session_log'.
 Your device definition should look as follows:
 
-​password = getpass()
+password = getpass()
 device = {
     "host": "cisco4.lasthop.io",
     "username": "pyclass",
