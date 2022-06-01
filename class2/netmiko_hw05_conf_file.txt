@@ -1,0 +1,14 @@
+vlan 666
+name thebeast
+!
+vlan 777
+name chmod777
+!
+vlan 808
+name roland808
+!
+vlan 314
+name pi
+!
+vlan 386
+name intel386
