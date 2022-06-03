@@ -25,6 +25,8 @@ ipv6_list = []
 for interface in json_data.values():
     # Try to get ipv4 dict from interface
     ipv4 = interface.get("ipv4")
+    # Try to get ipv6 dict fom interface
+    ipv6 = interface.get("ipv6")
     # If interface has an ipv4 key continue parsing ipv4
     if ipv4 is not None:
         # unpack each ipv4 tuple and append values to ipv4_list
@@ -34,8 +36,6 @@ for interface in json_data.values():
             interface_address = ipaddress.ip_interface(ipv4_string)
             ipv4_list.append(interface_address)
 
-    # Try to get ipv6 dict fom interface
-    ipv6 = interface.get("ipv6")
     # If interface has an ipv6 key continue parsing ipv6
     if ipv6 is not None:
         # Unpack each ipv6 tuple and append values to ipv6_list
