@@ -18,4 +18,4 @@ with open(f"{home_dir}/.netmiko.yml", "r") as f:
     netmiko_hosts = yaml.safe_load(f)
 
 net_connect = ConnectHandler(**netmiko_hosts["cisco3"])
-net_connect.find_prompt
+print(net_connect.find_prompt())
