@@ -27,10 +27,8 @@ for interface in json_data.values():
     ipv4 = interface.get("ipv4")
     # If interface has an ipv4 key continue parsing ipv4
     if ipv4 is not None:
-        # Create a list of tuples from ipv4 dict items
-        address_items = [address_item for address_item in ipv4.items()]
-        # unpack each address_item tuple and append values to ipv4_list
-        for address, prefix_dict in address_items:
+        # unpack each ipv4 tuple and append values to ipv4_list
+        for address, prefix_dict in ipv4.items():
             prefix = prefix_dict["prefix_length"]
             ipv4_string = f"{address}/{prefix}"
             interface_address = ipaddress.ip_interface(ipv4_string)
@@ -38,12 +36,10 @@ for interface in json_data.values():
 
     # Try to get ipv6 dict fom interface
     ipv6 = interface.get("ipv6")
-    # If interface as an ipv6 key continue parsing ipv6
+    # If interface has an ipv6 key continue parsing ipv6
     if ipv6 is not None:
-        # Create a list of tuples from ipv6 dict items
-        address_items = [address_item for address_item in ipv6.items()]
-        # Unpack each address_item tuple and append values to ipv6_list
-        for address, prefix_dict in address_items:
+        # Unpack each ipv6 tuple and append values to ipv6_list
+        for address, prefix_dict in ipv6.items():
             prefix = prefix_dict["prefix_length"]
             ipv6_string = f"{address}/{prefix}"
             interface_address = ipaddress.ip_interface(ipv6_string)
