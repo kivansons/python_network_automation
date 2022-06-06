@@ -32,10 +32,17 @@ pprint(running_config)
 # Pass cisco4 running_config to CiscoConfParse as list of lines
 cisco4_conf = CiscoConfParse(running_config.splitlines())
 
-# Find and save interface objects then pprint
-interfaces = cisco4_conf.find_objects(r"^interface")
+# Find and save interface objects that have an ip assigned then pprint
+# childspec= regex breakdown: (^) char looks for begining of line, (\s+) a whitespace char one or more times,
+# (ip address) the literal string "ip address".
+# Put togeather... find lines that start with one or more whitespaces then the string "ip address"
+interfaces = cisco4_conf.find_objects_w_child(
+    parentspec=r"^interface", childspec=r"^\s+ip address"
+)
 pprint(interfaces)
 
-# Search for "ip address" child commands of interfaces
-interface_addresses = [interface.re_search_children(r"^ip address") for interface in interfaces]
-pprint(interface_addresses)
+# For each interface in interfaces list, print the interface name then all ip address configuration lines
+for interface in interfaces:
+    print(f"\nInterface line: {interface.text}")
+    for address in interface.re_search_children(r"^\s+ip address"):
+        print(f"Address line: {address.text}")
