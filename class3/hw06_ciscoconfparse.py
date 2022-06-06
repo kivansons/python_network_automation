@@ -33,5 +33,9 @@ pprint(running_config)
 cisco4_conf = CiscoConfParse(running_config.splitlines())
 
 # Find and save interface objects then pprint
-cisco4_interfaces = cisco4_conf.find_objects(r"^interface")
-pprint(cisco4_interfaces)
+interfaces = cisco4_conf.find_objects(r"^interface")
+pprint(interfaces)
+
+# Search for "ip address" child commands of interfaces
+interface_addresses = [address for address in interfaces.re_search_children(r"^ip address")]
+pprint(interface_addresses)
