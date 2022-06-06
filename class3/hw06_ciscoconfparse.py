@@ -24,8 +24,20 @@ home_dir = os.path.expanduser("~")
 with open(f"{home_dir}/.netmiko.yml", "r") as f:
     netmiko_hosts = yaml.safe_load(f)
 
-# Connect to Cisco4 and get running config
+
+test_loopback_commands = [
+    "interface Loopback100",
+    "description test loopback for for class3 exercise 6",
+    "ip address 192.0.2.1 255.255.255.255",
+    "interface Loopback101",
+    "description test loopback for for class3 exercise 6",
+    "ip address 198.51.100.2 255.255.255.255 secondary",
+    "ip address 198.51.100.3 255.255.255.255 secondary",
+    "ip address 198.51.100.1 255.255.255.255",
+]
+# Connect to Cisco4, configure loopback IPs and get running config
 net_connect = ConnectHandler(**netmiko_hosts["cisco4"])
+net_connect.send_config_set(test_loopback_commands)
 running_config = net_connect.send_command("show run")
 pprint(running_config)
 
