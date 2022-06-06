@@ -28,3 +28,6 @@ with open(f"{home_dir}/.netmiko.yml", "r") as f:
 net_connect = ConnectHandler(**netmiko_hosts["cisco4"])
 running_config = net_connect.send_command("show run")
 pprint(running_config)
+
+cisco4_conf = CiscoConfParse(running_config.splitlines())
+pprint(cisco4_conf)
