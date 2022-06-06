@@ -37,5 +37,5 @@ interfaces = cisco4_conf.find_objects(r"^interface")
 pprint(interfaces)
 
 # Search for "ip address" child commands of interfaces
-interface_addresses = [address for address in interfaces.re_search_children(r"^ip address")]
+interface_addresses = [interface.re_search_children(r"^ip address") for interface in interfaces]
 pprint(interface_addresses)
