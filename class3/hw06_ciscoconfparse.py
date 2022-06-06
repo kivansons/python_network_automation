@@ -15,7 +15,6 @@ IP Address Line:  ip address 10.220.88.23 255.255.255.0
 """
 import yaml
 import os
-from pprint import pprint
 from netmiko import ConnectHandler
 from ciscoconfparse import CiscoConfParse
 
@@ -23,7 +22,6 @@ from ciscoconfparse import CiscoConfParse
 home_dir = os.path.expanduser("~")
 with open(f"{home_dir}/.netmiko.yml", "r") as f:
     netmiko_hosts = yaml.safe_load(f)
-
 
 test_loopback_commands = [
     "interface Loopback100",
@@ -35,23 +33,25 @@ test_loopback_commands = [
     "ip address 198.51.100.3 255.255.255.255 secondary",
     "ip address 198.51.100.1 255.255.255.255",
 ]
-# Connect to Cisco4, configure loopback IPs and get running config
+remove_loopback_commands = [
+    "no interface loopback100",
+    "no interface loopback101"
+]
+# Connect to Cisco4, configure loopback IPs and get running config then clean up loopbacks
 net_connect = ConnectHandler(**netmiko_hosts["cisco4"])
 net_connect.send_config_set(test_loopback_commands)
 running_config = net_connect.send_command("show run")
-pprint(running_config)
-
+net_connect.send_config_set(remove_loopback_commands)
 # Pass cisco4 running_config to CiscoConfParse as list of lines
 cisco4_conf = CiscoConfParse(running_config.splitlines())
 
-# Find and save interface objects that have an ip assigned then pprint
+# Find and save interface objects that have an ip assigned
 # childspec= regex breakdown: (^) char looks for begining of line, (\s+) a whitespace char one or more times,
 # (ip address) the literal string "ip address".
 # Put togeather... find lines that start with one or more whitespaces then the string "ip address"
 interfaces = cisco4_conf.find_objects_w_child(
     parentspec=r"^interface", childspec=r"^\s+ip address"
 )
-pprint(interfaces)
 
 # For each interface in interfaces list, print the interface name then all ip address configuration lines
 for interface in interfaces:
