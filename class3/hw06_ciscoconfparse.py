@@ -29,5 +29,9 @@ net_connect = ConnectHandler(**netmiko_hosts["cisco4"])
 running_config = net_connect.send_command("show run")
 pprint(running_config)
 
+# Pass cisco4 running_config to CiscoConfParse as list of lines
 cisco4_conf = CiscoConfParse(running_config.splitlines())
-pprint(cisco4_conf)
+
+# Find and save interface objects then pprint
+cisco4_interfaces = cisco4_conf.find_objects(r"^interface")
+pprint(cisco4_interfaces)
