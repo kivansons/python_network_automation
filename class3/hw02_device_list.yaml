@@ -1,0 +1,45 @@
+arista1:
+  device_type: arista_eos
+  host: arista1.lasthop.io
+  password: FakePassword
+  username: admin
+arista2:
+  device_type: arista_eos
+  host: arista2.lasthop.io
+  password: FakePassword
+  username: admin
+arista3:
+  device_type: arista_eos
+  host: arista3.lasthop.io
+  password: FakePassword
+  username: admin
+arista4:
+  device_type: arista_eos
+  host: arista4.lasthop.io
+  password: FakePassword
+  username: admin
+cisco3:
+  device_type: cisco_ios
+  host: cisco3.lasthop.io
+  password: FakePassword
+  username: admin
+cisco4:
+  device_type: cisco_ios
+  host: cisco4.lasthop.io
+  password: FakePassword
+  username: admin
+nxos1:
+  device_type: cisco_nxos
+  host: nxos1.lasthop.io
+  password: FakePassword
+  username: admin
+nxos2:
+  device_type: cisco_nxos
+  host: nxos2.lasthop.io
+  password: FakePassword
+  username: admin
+srx2:
+  device_type: juniper
+  host: srx2.lasthop.io
+  password: FakePassword
+  username: admin
