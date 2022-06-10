@@ -131,3 +131,6 @@ dmypy.json
 # Sensitive info
 emails/
 home_netmiko/
+
+# textFSM module symlink
+class4/textfsm.py
