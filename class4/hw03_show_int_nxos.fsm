@@ -3,7 +3,7 @@
 Value INTER_NAME ((Ethernet\d+\/\d+)|mgmt\d+)
 Value LINE_STATUS (up|down)
 Value ADMIN_STATE (up|down)
-Value MAC_ADDR ([a-fA-f0-9]{4}\.[a-fA-f0-9]{4}\.[a-fA-f0-9]{4})
+Value MAC_ADDR (([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[0-9a-fA-F]{4}\.[0-9a-fA-F]{4}))
 Value MTU (\d+)
 Value DUPLEX (full|half|auto)
 Value SPEED ((\d+\s+(G|M|K)b\/s)|auto)
