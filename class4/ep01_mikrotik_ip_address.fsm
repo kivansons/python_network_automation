@@ -1,0 +1,11 @@
+# Take "ep01_mikrotik_ip_address.txt" as input and parse: address, interface, comment, and network
+Value ADDRESS (\S+)
+Value COMMENT ("(.*?)"|\S+)
+Value INTERFACE (\S+)
+Value NETWORK (\S+)
+
+Start
+  ^\/ip\s+address\s+add\s+(address=${ADDRESS}\s*|comment=${COMMENT}\s*|interface=${INTERFACE}\s*|network=${NETWORK}\s*)*\s*$$ -> Record
+#  ^\/ip\s+address\s+add\s+address=${ADDRESS}\s+(comment=${COMMENT}\s+)*interface=${INTERFACE}\s+network=${NETWORK}\s*$$ -> Record
+
+EOF
