@@ -6,6 +6,5 @@ Value NETWORK (\S+)
 
 Start
   ^\/ip\s+address\s+add\s+(address=${ADDRESS}\s*|comment=${COMMENT}\s*|interface=${INTERFACE}\s*|network=${NETWORK}\s*)*\s*$$ -> Record
-#  ^\/ip\s+address\s+add\s+address=${ADDRESS}\s+(comment=${COMMENT}\s+)*interface=${INTERFACE}\s+network=${NETWORK}\s*$$ -> Record
 
 EOF
