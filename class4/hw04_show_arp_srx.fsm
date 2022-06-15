@@ -1,0 +1,14 @@
+# Use TextFSM to parse the 'show arp' output from a Juniper SRX (see hw04_show_arp_srx.txt).
+# Extract the following fields into tabular data: MAC Address, Address, Name, Interface.
+Value MAC_ADDR (([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[0-9a-fA-F]{4}\.[0-9a-fA-F]{4}))
+Value IP_ADDR (([\d]{1,3}\.){3}[\d]{1,3})
+Value NAME (\S+)
+Value INTERFACE (\S+)
+
+Start
+  ^MAC.+Flags.*$$ -> ShowArpTable
+
+ShowArpTable
+  ^\s*${MAC_ADDR}\s+${IP_ADDR}\s+${NAME}\s+${INTERFACE}.*$$ -> Record
+
+EOF

@@ -1,0 +1,15 @@
+# Parse the 'show lldp neighbors' output from nxos1 (see hw05_show_lldp_neighbor_nxos.txt). 
+# From this output use TextFSM to extract:
+# Device ID, Local Intf, Capability, and Port ID.
+Value DEVICE_ID (\S+)
+Value LOCAL_INTF (\S+)
+Value CAPABILITY (\S+)
+Value PORT_ID (\S+)
+
+Start
+  ^\s*Device.+ID\s*$$ -> LLDPNeighbors
+
+LLDPNeighbors
+  ^\s*${DEVICE_ID}\s+${LOCAL_INTF}\s+\d+\s+${CAPABILITY}\s+${PORT_ID}\s*$$ -> Record
+
+EOF

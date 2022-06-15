@@ -1,0 +1,6 @@
+/ip address add comment=MGMT address=100.127.1.1/24 interface=VLAN11-MGMT network=100.127.1.0
+/ip address add address=100.126.0.2/29 comment="to REGION01.SITE01.CR" interface=VLAN2001-to-REGION01.SITE01.CR network=100.126.0.0
+/ip address add address=100.126.0.41/29 comment="to REGION01.SITE01.IBR02" interface=VLAN2010-to-REGION01.SITE01.IBR02 network=100.126.0.40
+/ip address add address=100.127.0.1 interface=loopback network=100.127.0.1
+/ip address add address=192.9.2.195/29 interface=VLAN51-to-ISP1 comment="[TRANSIT] [EXTERNAL] ISP1" network=192.0.2.192
+/ip address add address=192.9.2.194/29 comment="VRRP ISP1 IP" interface=VRRP51-INTERNET network=192.0.2.192

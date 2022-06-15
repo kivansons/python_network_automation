@@ -1,0 +1,18 @@
+# Using the 'show interface Ethernet2/1' output from nxos1 (see hw03_show_int_nxos.txt),
+# extract the interface name, line status, admin state, MAC address, MTU, duplex, and speed using TextFSM.
+Value INTER_NAME ((Ethernet\d+\/\d+)|mgmt\d+)
+Value LINE_STATUS (up|down)
+Value ADMIN_STATE (up|down)
+Value MAC_ADDR (([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[0-9a-fA-F]{4}\.[0-9a-fA-F]{4}))
+Value MTU (\d+)
+Value DUPLEX (full|half|auto)
+Value SPEED ((\d+\s+(G|M|K)b\/s)|auto)
+
+Start
+ ^${INTER_NAME}\s+is\s+${LINE_STATUS}.*$$
+ ^admin\s+state.+${ADMIN_STATE}.*$$
+ ^\s+Hardware.+${MAC_ADDR}.*$$
+ ^\s+MTU\s${MTU}.*$$
+ ^\s+${DUPLEX}-duplex,\s+${SPEED}.*$$ -> Record
+
+EOF
