@@ -45,7 +45,7 @@ bgp_conf = {
 }
 
 # load jinja template file and render config commands
-template_file = "hw02b_nxos_bgp_conf.j2"
+template_file = "hw02c_nxos_bgp_conf.j2"
 template = env.get_template(template_file)
 nxos1_conf_commands = template.render(**bgp_conf["nxos1"])
 nxos2_conf_commands = template.render(**bgp_conf["nxos2"])
