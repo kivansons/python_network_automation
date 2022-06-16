@@ -46,7 +46,7 @@ nxos2_conf = {
     "peer_ip": "10.1.100.1"
 }
 
-template_file = "hw02b_nxos_bgp_conf.j2"
+template_file = "hw02c_nxos_bgp_conf.j2"
 template = env.get_template(template_file)
 nxos1_output = template.render(**nxos1_conf)
 nxos2_output = template.render(**nxos2_conf)
