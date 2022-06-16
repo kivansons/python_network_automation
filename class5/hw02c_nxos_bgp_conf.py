@@ -10,7 +10,6 @@ For this exercise you should store your Netmiko connection dictionaries in an ex
 and should import nxos1, and nxos2 from that external file.
 Make sure that you use getpass() to enter the password in for these devices (as opposed to storing the definitions in the file).
 """
-from operator import ne
 import os
 import yaml
 from netmiko import ConnectHandler
@@ -63,3 +62,6 @@ nxos1_net_connect.send_config_set(command_list)
 command_list = [command.strip() for command in nxos2_conf_commands.splitlines()]
 nxos2_net_connect.send_config_set(command_list)
 # Todo: Verify that desired config state has been reached (textFSM?)
+#  - ping neighbor
+#  - show ip bgp summary
+#  - show ip interface brief
