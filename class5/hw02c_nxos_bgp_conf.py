@@ -58,4 +58,8 @@ print(nxos2_net_connect.find_prompt())
 
 
 # Todo: Send config to both nxos devices
+command_list = [command.strip() for command in nxos1_conf_commands.splitlines()]
+nxos1_net_connect.send_config_set(command_list)
+command_list = [command.strip() for command in nxos2_conf_commands.splitlines()]
+nxos2_net_connect.send_config_set(command_list)
 # Todo: Verify that desired config state has been reached (textFSM?)
