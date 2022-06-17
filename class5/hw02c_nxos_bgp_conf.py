@@ -9,12 +9,27 @@ Your autonomous system should remain 22, however.
 For this exercise you should store your Netmiko connection dictionaries in an external file named my_devices.py
 and should import nxos1, and nxos2 from that external file.
 Make sure that you use getpass() to enter the password in for these devices (as opposed to storing the definitions in the file).
+
+Mermaid flow chart
+graph TD
+    A[Show IP int brief] --> B{Is IP Configured?}
+    B --> |Yes| C[Remove address]
+    B --> |No| D[Send IP Address config]
+    C --> D
+    D --> E[Show IP BGP summary]
+    E --> F{Is Peer Established?
 """
 import os
 import yaml
 from netmiko import ConnectHandler
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
+
+def commands_to_list(commands: str) -> list:
+    """Accepts a multi line string of config commands,
+    returns a list config lines with leading and trailing  whitespace striped"""
+    commands_list = [command.strip() for command in commands.splitlines()]
+    return commands_list.copy()
 
 # Set strict jinja2 undefined var checking and look for templates in current dir
 env = Environment(undefined=StrictUndefined)
@@ -25,7 +40,6 @@ with open(f"{home_dir}/.netmiko.yml", "r") as f:
     netmiko_hosts = yaml.safe_load(f)
 
 # Device BGP config params
-hostnames = ["nxos1","nxos2"]
 bgp_conf = {
     "nxos1": {
         "interface": "Ethernet1/1",
@@ -57,10 +71,8 @@ print(nxos2_net_connect.find_prompt())
 
 
 # Todo: Send config to both nxos devices
-command_list = [command.strip() for command in nxos1_conf_commands.splitlines()]
-nxos1_net_connect.send_config_set(command_list)
-command_list = [command.strip() for command in nxos2_conf_commands.splitlines()]
-nxos2_net_connect.send_config_set(command_list)
+nxos1_net_connect.send_config_set(commands_to_list(nxos1_conf_commands))
+nxos2_net_connect.send_config_set(commands_to_list(nxos2_conf_commands))
 # Todo: Verify that desired config state has been reached (textFSM?)
 #  - ping neighbor
 #  - show ip bgp summary
