@@ -27,7 +27,7 @@ from jinja2.environment import Environment
 
 def commands_to_list(commands: str) -> list:
     """Accepts a multi line string of config commands,
-    returns a list config lines with leading and trailing  whitespace striped"""
+    returns a list of config lines with leading and trailing whitespace striped"""
     commands_list = [command.strip() for command in commands.splitlines()]
     return commands_list.copy()
 
@@ -69,8 +69,7 @@ nxos2_net_connect = ConnectHandler(**netmiko_hosts["nxos2"])
 print(nxos1_net_connect.find_prompt())
 print(nxos2_net_connect.find_prompt())
 
-
-# Todo: Send config to both nxos devices
+# Send config to both nxos devices
 nxos1_net_connect.send_config_set(commands_to_list(nxos1_conf_commands))
 nxos2_net_connect.send_config_set(commands_to_list(nxos2_conf_commands))
 # Todo: Verify that desired config state has been reached (textFSM?)
