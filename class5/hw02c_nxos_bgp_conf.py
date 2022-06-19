@@ -25,7 +25,7 @@ from netmiko import ConnectHandler
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
 
-def commands_to_list(commands: str) -> list:
+def splitlines_strip(commands: str) -> list:
     """Accepts a multi line string of config commands,
     returns a list of config lines with leading and trailing whitespace striped"""
     commands_list = [command.strip() for command in commands.splitlines()]
@@ -57,6 +57,7 @@ bgp_conf = {
     },
 }
 
+
 # load jinja template file and render config commands
 template_file = "hw02c_nxos_bgp_conf.j2"
 template = env.get_template(template_file)
@@ -70,9 +71,17 @@ print(nxos1_net_connect.find_prompt())
 print(nxos2_net_connect.find_prompt())
 
 # Send config to both nxos devices
-nxos1_net_connect.send_config_set(commands_to_list(nxos1_conf_commands))
-nxos2_net_connect.send_config_set(commands_to_list(nxos2_conf_commands))
+output = nxos1_net_connect.send_config_set(splitlines_strip(nxos1_conf_commands))
+print("Nxos1 config output\n" + ("#" * 80))
+print(output)
+output = nxos2_net_connect.send_config_set(splitlines_strip(nxos2_conf_commands))
+print("Nxos2 config output\n" + ("#" * 80))
+print(output)
 # Todo: Verify that desired config state has been reached (textFSM?)
+
 #  - ping neighbor
+ping_peer = f"ping {bgp_conf['nxos1']['peer_ip']}"
+output = nxos1_net_connect.send_command(ping_peer)
+print(output)
 #  - show ip bgp summary
 #  - show ip interface brief
