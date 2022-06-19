@@ -97,11 +97,11 @@ sleep_time = 15
 print(f"Waiting for {sleep_time} seconds to allow BGP session to establish")
 sleep(sleep_time)
 
-bgp_check = f"show ip bgp summary | inclide {bgp_conf['nxos1']['peer_ip']}"
+bgp_check = f"show ip bgp summary | include {bgp_conf['nxos1']['peer_ip']}"
 bgp_output = nxos1_net_connect.send_command(bgp_check)
 print(bgp_output)
 # Search from end of string looking for first nonwhitespace block of chars
-bgp_re_search = re.search(r"\s*\S+\s*&", bgp_output)
+bgp_re_search = re.search(r"\s+\S+\s*&", bgp_output)
 bgp_state = bgp_re_search.group(1)
 
 try:
