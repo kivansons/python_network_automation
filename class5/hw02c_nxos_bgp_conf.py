@@ -22,15 +22,18 @@ graph TD
 import re
 import os
 import yaml
+from time import sleep
 from netmiko import ConnectHandler
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
+
 
 def splitlines_strip(commands: str) -> list:
     """Accepts a multi line string of config commands,
     returns a list of config lines with leading and trailing whitespace striped"""
     commands_list = [command.strip() for command in commands.splitlines()]
     return commands_list.copy()
+
 
 # Set strict jinja2 undefined var checking and look for templates in current dir
 env = Environment(undefined=StrictUndefined)
@@ -88,5 +91,27 @@ if "64 bytes from" in ping_output:
     print("Ping was successful!")
 elif "64 bytes from" not in ping_output:
     print("Ping failed!")
-#  - show ip bgp summary
-#  - show ip interface brief
+
+# Sleep while waiting for BGP session to establish
+sleep_time = 15
+print(f"Waiting for {sleep_time} seconds to allow BGP session to establish")
+sleep(sleep_time)
+
+bgp_check = f"show ip bgp summary | inclide {bgp_conf['nxos1']['peer_ip']}"
+bgp_output = nxos1_net_connect.send_command(bgp_check)
+print(bgp_output)
+# Search from end of string looking for first nonwhitespace block of chars
+bgp_re_search = re.search(r"\s*\S+\s*&", bgp_output)
+bgp_state = bgp_re_search.group(1)
+
+try:
+    # If bgp session is established cisco will show an integer value of prefixes
+    int(bgp_state)
+    print(f"BGP peering established. {bgp_state} prefixes received")
+except ValueError:
+    # If BGP session is not established bgp_state will be a non-int string
+    print("BGP peering failed")
+
+# Close connections to devices
+nxos1_net_connect.disconnect()
+nxos2_net_connect.disconnect()
