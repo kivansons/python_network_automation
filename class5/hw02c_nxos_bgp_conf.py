@@ -19,6 +19,7 @@ graph TD
     D --> E[Show IP BGP summary]
     E --> F{Is Peer Established?
 """
+import re
 import os
 import yaml
 from netmiko import ConnectHandler
@@ -81,7 +82,13 @@ print(output)
 
 #  - ping neighbor
 ping_peer = f"ping {bgp_conf['nxos1']['peer_ip']}"
-output = nxos1_net_connect.send_command(ping_peer)
-print(output)
+ping_output = nxos1_net_connect.send_command(ping_peer)
+ping_check = re.search(r"^64 bytes from.*&", ping_output)
+print("Pinging nxos1 from nxos2")
+print(ping_output)
+if "64 bytes from" in ping_check:
+    print("Ping was successful!")
+elif "64 bytes from" not in ping_check:
+    print("Ping failed!")
 #  - show ip bgp summary
 #  - show ip interface brief
