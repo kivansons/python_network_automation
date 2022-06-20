@@ -77,7 +77,7 @@ print(output)
 # ping neighbor
 ping_peer = f"ping {bgp_conf['nxos1']['peer_ip']}"
 ping_output = nxos1_net_connect.send_command(ping_peer)
-print("Pinging nxos1 from nxos2\n" + "-" * 80)
+print("\nPinging nxos1 from nxos2\n" + "-" * 80)
 print(ping_output)
 if "64 bytes from" in ping_output:
     print("Ping was successful!")
@@ -96,7 +96,7 @@ print("Sending show command to nxos1")
 bgp_check = f"show ip bgp summary | include {bgp_conf['nxos1']['peer_ip']}"
 print(f"Command sent:\n{bgp_check}\n")
 bgp_output = nxos1_net_connect.send_command(bgp_check)
-print(f"Response:\n{bgp_output}")
+print(f"Response received:\n{bgp_output}")
 # Search from end of string looking for first nonwhitespace block of chars
 bgp_re_search = re.search(r"\s+(\S+)\s*$", bgp_output)
 bgp_state = bgp_re_search.group(1)
