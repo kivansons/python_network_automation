@@ -77,7 +77,7 @@ print(output)
 # ping neighbor
 ping_peer = f"ping {bgp_conf['nxos1']['peer_ip']}"
 ping_output = nxos1_net_connect.send_command(ping_peer)
-print("Pinging nxos1 from nxos2")
+print("Pinging nxos1 from nxos2\n" + "-" * 80)
 print(ping_output)
 if "64 bytes from" in ping_output:
     print("Ping was successful!")
@@ -88,13 +88,15 @@ elif "64 bytes from" not in ping_output:
 
 # Sleep while waiting for BGP session to establish
 sleep_time = 15
-print(f"Waiting for {sleep_time} seconds to allow BGP session to establish")
+print(f"\nWaiting for {sleep_time} seconds to allow BGP session to establish\n")
 sleep(sleep_time)
 
 # Check if BGP peering worked
+print("Sending show command to nxos1")
 bgp_check = f"show ip bgp summary | include {bgp_conf['nxos1']['peer_ip']}"
+print(f"Command sent:\n{bgp_check}\n")
 bgp_output = nxos1_net_connect.send_command(bgp_check)
-print(bgp_output)
+print(f"Response:\n{bgp_output}")
 # Search from end of string looking for first nonwhitespace block of chars
 bgp_re_search = re.search(r"\s+(\S+)\s*$", bgp_output)
 bgp_state = bgp_re_search.group(1)
@@ -114,7 +116,7 @@ nxos1_net_connect.disconnect()
 nxos2_net_connect.disconnect()
 
 # Print outcome of configuration
-print("-" * 80)
+print("\n")
 if (ping_success is True) and (bgp_success is True):
     print("Configuration was successful!")
 if ping_success is False:
