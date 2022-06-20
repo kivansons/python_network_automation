@@ -9,15 +9,6 @@ Your autonomous system should remain 22, however.
 For this exercise you should store your Netmiko connection dictionaries in an external file named my_devices.py
 and should import nxos1, and nxos2 from that external file.
 Make sure that you use getpass() to enter the password in for these devices (as opposed to storing the definitions in the file).
-
-Mermaid flow chart
-graph TD
-    A[Show IP int brief] --> B{Is IP Configured?}
-    B --> |Yes| C[Remove address]
-    B --> |No| D[Send IP Address config]
-    C --> D
-    D --> E[Show IP BGP summary]
-    E --> F{Is Peer Established?
 """
 import re
 import os
@@ -76,27 +67,31 @@ print(nxos2_net_connect.find_prompt())
 
 # Send config to both nxos devices
 output = nxos1_net_connect.send_config_set(splitlines_strip(nxos1_conf_commands))
-print("Nxos1 config output\n" + ("#" * 80))
+print("\nNxos1 config output\n" + ("-" * 80))
 print(output)
 output = nxos2_net_connect.send_config_set(splitlines_strip(nxos2_conf_commands))
-print("Nxos2 config output\n" + ("#" * 80))
+print("\nNxos2 config output\n" + ("-" * 80))
 print(output)
-# Todo: Verify that desired config state has been reached
-#  - ping neighbor
+
+# Verify that desired config state has been reached
+# ping neighbor
 ping_peer = f"ping {bgp_conf['nxos1']['peer_ip']}"
 ping_output = nxos1_net_connect.send_command(ping_peer)
 print("Pinging nxos1 from nxos2")
 print(ping_output)
 if "64 bytes from" in ping_output:
     print("Ping was successful!")
+    ping_success = True
 elif "64 bytes from" not in ping_output:
     print("Ping failed!")
+    ping_success = False
 
 # Sleep while waiting for BGP session to establish
 sleep_time = 15
 print(f"Waiting for {sleep_time} seconds to allow BGP session to establish")
 sleep(sleep_time)
 
+# Check if BGP peering worked
 bgp_check = f"show ip bgp summary | include {bgp_conf['nxos1']['peer_ip']}"
 bgp_output = nxos1_net_connect.send_command(bgp_check)
 print(bgp_output)
@@ -108,10 +103,21 @@ try:
     # If bgp session is established cisco will show an integer value of prefixes
     int(bgp_state)
     print(f"BGP peering established. {bgp_state} prefixes received")
+    bgp_success = True
 except ValueError:
     # If BGP session is not established bgp_state will be a non-int string
     print("BGP peering failed")
+    bgp_success = False
 
 # Close connections to devices
 nxos1_net_connect.disconnect()
 nxos2_net_connect.disconnect()
+
+# Print outcome of configuration
+print("-" * 80)
+if (ping_success is True) and (bgp_success is True):
+    print("Configuration was successful!")
+if ping_success is False:
+    print(f"Configuration was unsuccessful\nPing check to {bgp_conf['nxos1']['peer_ip']} failed")
+if bgp_success is False:
+    print(f"Configuration was unsuccessful\nBGP peering not established")
