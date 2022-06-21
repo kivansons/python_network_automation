@@ -22,7 +22,6 @@ for example, the 'ipv4_enabled' and the 'ipv6_enabled' variables).
 Additionally, both the vrf_name and the rd_number should be variables in the template.
 Make sure that you control the whitespace in your output such that the configuration looks visually correct.
 """
-from pprint import pprint
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
 
