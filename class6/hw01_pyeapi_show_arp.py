@@ -65,4 +65,4 @@ arp_table = arp_output[0]["result"]["ipV4Neighbors"]
 for arp_entry in arp_table:
     ip = arp_entry.get("address")
     mac = arp_entry.get("hwAddress")
-    print(f"{mac} is bound to {ip}")
+    print(f"{ip} is bound to {mac}")
