@@ -23,13 +23,28 @@ password = getpass()
 for device in device_dict.keys():
     device_dict[device]["password"] = password
 
-
-connections = [pyeapi.client.connect(**device) for device in device_dict]
+# buld connections and then nodes from all devices in device_dict
+connections = [pyeapi.client.connect(**device) for device in device_dict.values()]
 nodes = [pyeapi.client.Node(connection) for connection in connections]
 
-
+# Send "show ip arp" to all nodes and store results
 arp_output = []
 for node in nodes:
     arp_output.append(node.enable("show ip arp"))
 
-pprint(arp_output)
+for arp_json_data in arp_output:
+    # Unpack arp table from json data
+    arp_table = arp_json_data[0]["result"]["ipV4Neighbors"]
+
+    # Print ARP entries
+    for arp_entry in arp_table:
+        ip = arp_entry.get("address")
+        mac = arp_entry.get("hwAddress")
+        print(f"{ip} is bound to {mac}")
+    arp_table = arp_output[0]["result"]["ipV4Neighbors"]
+
+    # Print ARP entries
+    for arp_entry in arp_table:
+        ip = arp_entry.get("address")
+        mac = arp_entry.get("hwAddress")
+        print(f"{ip} is bound to {mac}")
