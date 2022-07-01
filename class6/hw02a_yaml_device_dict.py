@@ -41,10 +41,3 @@ for arp_json_data in arp_output:
         ip = arp_entry.get("address")
         mac = arp_entry.get("hwAddress")
         print(f"{ip} is bound to {mac}")
-    arp_table = arp_output[0]["result"]["ipV4Neighbors"]
-
-    # Print ARP entries
-    for arp_entry in arp_table:
-        ip = arp_entry.get("address")
-        mac = arp_entry.get("hwAddress")
-        print(f"{ip} is bound to {mac}")
