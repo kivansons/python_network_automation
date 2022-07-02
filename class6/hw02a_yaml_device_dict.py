@@ -9,7 +9,6 @@ Once again, from this ARP table data, print out a mapping of all of the IP addre
 import yaml
 import pyeapi
 from getpass import getpass
-from pprint import pprint
 
 # Load devices from YAML file
 device_file = "eapi_devices.yaml"
@@ -27,20 +26,17 @@ for device in device_dict.keys():
 connections = [pyeapi.client.connect(**device) for device in device_dict.values()]
 nodes = [pyeapi.client.Node(connection) for connection in connections]
 
-# Send "show ip arp" to all nodes and store results
+# Get node hostname and arptable
 hostname_output = []
 arp_output = []
 for node in nodes:
     hostname_output.append(node.enable("show hostname"))
     arp_output.append(node.enable("show ip arp"))
 
-for hostname in hostname_output:
-    pprint(hostname)
-
 # Loop through "show ip arp" output for each device
-for i,arp_json_data in enumerate(arp_output):
-    # Get device hostname from device_dict
-    hostname = str(device_dict[i]["host"])
+for hostname_json_data,arp_json_data in zip(hostname_output,arp_output):
+    # unpack hostname from hostname data
+    hostname = hostname_json_data[0]["result"]["hostname"]
     # Unpack arp table from json data
     arp_table = arp_json_data[0]["result"]["ipV4Neighbors"]
 
