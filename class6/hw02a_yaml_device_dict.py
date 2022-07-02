@@ -32,10 +32,16 @@ arp_output = []
 for node in nodes:
     arp_output.append(node.enable("show ip arp"))
 
-for arp_json_data in arp_output:
+# Loop through "show ip arp" output for each device
+for i,arp_json_data in enumerate(arp_output):
+    # Get device hostname from device_dict
+    hostname = str(device_dict[i]["host"])
     # Unpack arp table from json data
     arp_table = arp_json_data[0]["result"]["ipV4Neighbors"]
 
+    # Print Header
+    print(f"{hostname} arp bindings")
+    print("-" * 80)
     # Print ARP entries
     for arp_entry in arp_table:
         ip = arp_entry.get("address")
