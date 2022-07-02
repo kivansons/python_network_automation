@@ -28,9 +28,14 @@ connections = [pyeapi.client.connect(**device) for device in device_dict.values(
 nodes = [pyeapi.client.Node(connection) for connection in connections]
 
 # Send "show ip arp" to all nodes and store results
+hostname_output = []
 arp_output = []
 for node in nodes:
+    hostname_output.append(node.enable("show hostname"))
     arp_output.append(node.enable("show ip arp"))
+
+for hostname in hostname_output:
+    pprint(hostname)
 
 # Loop through "show ip arp" output for each device
 for i,arp_json_data in enumerate(arp_output):
