@@ -57,9 +57,7 @@ example output data structure
 # Unpack default vrf routes dictionary from api output
 routes = output[0]["result"]["vrfs"]["default"]["routes"]
 
-
-table_spacing = 20
-route_header = f"Routing Table Output\n{'-'*80}\n{'Prefix':table_spacing}{'Type':table_spacing}{'Nexthop_address':table_spacing}"
+route_header = f"Routing Table Output\n{'-'*80}\n{'Prefix':20}{'Type':20}{'Nexthop_address':20}"
 print(route_header)
 
 # Print route prefix,type, and nexthop from route
@@ -70,4 +68,4 @@ for key,values in routes.items():
         route_nexthop_addr = values["vias"][0]["nexthopAddr"]
     else:
         route_nexthop_addr = None
-    print(f"{route_prefix:table_spacing}{route_type:table_spacing}{str(route_nexthop_addr):table_spacing}")
+    print(f"{route_prefix:20}{route_type:20}{str(route_nexthop_addr):20}")
