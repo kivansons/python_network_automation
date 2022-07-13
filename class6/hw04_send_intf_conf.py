@@ -120,8 +120,8 @@ def eapi_show_ip_inter_brief(device_dict: dict) -> None:
         command = "show ip interface brief"
         output = node.enable(command)
         output = output[0]["result"]["output"]
-        
-        print(f'{hostname}: output of "{command}"')
+
+        print(f'\n{hostname}: output of "{command}"')
         print("-" * 80)
         for line in output.splitlines():
             print(line)
