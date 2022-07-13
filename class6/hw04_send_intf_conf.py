@@ -105,7 +105,7 @@ def eapi_send_config(device_dict: dict) -> None:
     for device in device_dict.values():
         hostname = device.get("host")
         node = device.get("eapi_node")
-        config = device.get("conf_payload")
+        config = device.get("config_payload")
         if node is not None and config is not None:
             print(f"Sending the following config to {hostname}:")
             print(config)
