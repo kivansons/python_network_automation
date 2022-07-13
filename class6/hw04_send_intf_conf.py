@@ -45,15 +45,15 @@ Use pyeapi and "show ip interface brief" to display the IP address table after t
 # [x] write function to send configs via eapi
 # [] write function to send and display "show ip interface brief"
 # [] build main loop
-#       [] get device_dict with load_devices_from_yaml()
-#       [] get password from user and add to all devices in device_dict
-#       [] establish eapi connections to all devices with eapi_build_connections()
-#       [] Render configs with render_jinja2_config()
-#       [] Send configs with eapi_send_config()
+#       [X] get device_dict with load_devices_from_yaml()
+#       [X] get password from user and add to all devices in device_dict
+#       [X] establish eapi connections to all devices with eapi_build_connections()
+#       [X] Render configs with render_jinja2_config()
+#       [X] Send configs with eapi_send_config()
 #       [] 
 import yaml
 import pyeapi
-import pdb
+from pprint import pprint
 from getpass import getpass
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
@@ -101,22 +101,28 @@ def eapi_build_connnections(device_dict: dict) -> None:
 
 
 def eapi_send_config(device_dict: dict) -> None:
-    """Accepts a dict of devices with "eapi_node" and "conf_payload keys and sends the config payload to each device in list"""
+    """Accepts a dict of devices with "eapi_node" and "config_payload" keys and sends the config payload to each device in list"""
     for device in device_dict.values():
         hostname = device.get("host")
         node = device.get("eapi_node")
         config = device.get("config_payload")
-        if node is not None and config is not None:
-            print(f"Sending the following config to {hostname}:")
-            print(config)
-            node.config(config)
-        else:
-            if node is None:
-                print(f"Missing eapi_node for {hostname}")
-            if config is None:
-                print(f"Missing config for {hostname}")
-            print(f"Skiping {hostname} configuration")
+
+        print(f"Sending the following config to {hostname}:")
+        print(config)
+        node.config(config)
     return
+
+def eapi_show_ip_inter_brief(device_dict: dict) -> None:
+    """Accepts a dict of devices with 'eapi_node' and prints the output of 'show ip interface brief'"""
+    for device in device_dict.values():
+        hostname = device["host"]
+        node = device["eapi_node"]
+        command = "show ip interface brief"
+        output = node.enable(command)
+        print(f'{hostname}: output of "{command}"')
+        print("-" * 80)
+        pprint(output)
+
 if __name__ == "__main__":
     device_file = "hw04_devices.yaml"
     jinja2_template_file = "hw04_loopback_intf_conf.j2"
@@ -129,5 +135,4 @@ if __name__ == "__main__":
 
     render_jinja2_config(device_dict, jinja2_template_file)
     eapi_build_connnections(device_dict)
-    pdb.set_trace()
     eapi_send_config(device_dict)
