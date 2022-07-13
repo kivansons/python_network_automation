@@ -41,8 +41,8 @@ Use pyeapi and "show ip interface brief" to display the IP address table after t
 # [x] write jinja template
 # [x] write funct to load yaml file
 # [x] write function to build eapi connections and node and add eapi node objects to device_dict as eapi_node
-# [] write function to load jinja template file, render configs and store in device_dict as conf_payload
-# [X] write function to send configs via eapi
+# [x] write function to load jinja template file, render configs and store in device_dict as conf_payload
+# [x] write function to send configs via eapi
 # [] write function to send and display "show ip interface brief"
 # [] build main loop
 #       [] get device_dict with load_devices_from_yaml()
@@ -58,7 +58,7 @@ from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
 
 def load_devices_from_yaml(device_filepath: str) -> dict:
-    """Loads devices from YAML file at device_filepath. Returns a dictionary python object"""
+    """Loads devices from YAML file at device_filepath. Returns a python dictionary object"""
     with open(device_filepath, "r") as f:
         device_dict = yaml.safe_load(f)
     return device_dict.copy()
@@ -69,10 +69,11 @@ def render_jinja2_config(device_dict: dict, template_filepath: str) -> None:
     env = Environment(undefined=StrictUndefined)
     # Look for jinja2 templates in local dir
     env.loader = FileSystemLoader(".")
-    template_file = template_filepath
     template = env.get_template(template_filepath)
     
-    output = template.render(**cisco3_vars)
+    for key,config in device_dict.items():
+        device_dict[key]["conf_payload"] = template.render(**config["data"])
+    return
 
 def eapi_build_connnections(device_dict: dict) -> None:
     """Accepts a dict containing device credentials and builds pyeapi node objects.
@@ -112,6 +113,18 @@ def eapi_send_config(device_dict: dict) -> None:
             if config is None:
                 print(f"Missing config for {hostname}")
             print(f"Skiping {hostname} configuration")
-
+    return
 if __name__ == __main__:
-    # Start of main loop
+    device_file = "hw04_devices.yaml"
+    device_dict = load_devices_from_yaml(device_file)
+
+    # Get password from user and store in device_dict
+    password = getpass()
+    for device in device_dict.keys():
+        device_dict[device]["password"] = password
+
+
+
+    render_jinja2_config(device_dict)
+    eapi_build_connnections(device_dict)
+    eapi_send_config(device_dict)
