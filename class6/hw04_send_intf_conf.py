@@ -53,6 +53,7 @@ Use pyeapi and "show ip interface brief" to display the IP address table after t
 #       [] 
 import yaml
 import pyeapi
+import pdb
 from getpass import getpass
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
@@ -72,7 +73,9 @@ def render_jinja2_config(device_dict: dict, template_filepath: str) -> None:
     template = env.get_template(template_filepath)
     
     for key,config in device_dict.items():
-        device_dict[key]["conf_payload"] = template.render(**config["data"])
+        config = template.render(**config["data"])
+        config_payload = config.splitlines()
+        device_dict[key]["config_payload"] = config_payload
     return
 
 def eapi_build_connnections(device_dict: dict) -> None:
@@ -126,4 +129,5 @@ if __name__ == "__main__":
 
     render_jinja2_config(device_dict, jinja2_template_file)
     eapi_build_connnections(device_dict)
+    pdb.set_trace()
     eapi_send_config(device_dict)
