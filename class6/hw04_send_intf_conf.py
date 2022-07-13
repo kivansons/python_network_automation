@@ -121,7 +121,7 @@ def eapi_show_ip_inter_brief(device_dict: dict) -> None:
         output = node.enable(command)
         print(f'{hostname}: output of "{command}"')
         print("-" * 80)
-        pprint(output)
+        pprint(output["result"]["output"])
 
 if __name__ == "__main__":
     device_file = "hw04_devices.yaml"
