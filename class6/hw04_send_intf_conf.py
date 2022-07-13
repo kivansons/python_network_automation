@@ -136,3 +136,4 @@ if __name__ == "__main__":
     render_jinja2_config(device_dict, jinja2_template_file)
     eapi_build_connnections(device_dict)
     eapi_send_config(device_dict)
+    eapi_show_ip_inter_brief(device_dict)
