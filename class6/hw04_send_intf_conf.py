@@ -43,17 +43,16 @@ Use pyeapi and "show ip interface brief" to display the IP address table after t
 # [x] write function to build eapi connections and node and add eapi node objects to device_dict as eapi_node
 # [x] write function to load jinja template file, render configs and store in device_dict as conf_payload
 # [x] write function to send configs via eapi
-# [] write function to send and display "show ip interface brief"
-# [] build main loop
+# [X] write function to send and display "show ip interface brief"
+# [X] build main loop
 #       [X] get device_dict with load_devices_from_yaml()
 #       [X] get password from user and add to all devices in device_dict
 #       [X] establish eapi connections to all devices with eapi_build_connections()
 #       [X] Render configs with render_jinja2_config()
 #       [X] Send configs with eapi_send_config()
-#       [] 
+#       [X] Show output of "show ip interface brief" with eapi_show_ip_inter_brief()
 import yaml
 import pyeapi
-from pprint import pprint
 from getpass import getpass
 from jinja2 import FileSystemLoader, StrictUndefined
 from jinja2.environment import Environment
@@ -65,7 +64,7 @@ def load_devices_from_yaml(device_filepath: str) -> dict:
     return device_dict.copy()
 
 def render_jinja2_config(device_dict: dict, template_filepath: str) -> None:
-    """function to load jinja template file, render configs and store in device_dict as conf_payload"""
+    """function to load jinja template file, render configs and store in device_dict as config_payload"""
     # Set strict undefined var checking
     env = Environment(undefined=StrictUndefined)
     # Look for jinja2 templates in local dir
@@ -74,7 +73,7 @@ def render_jinja2_config(device_dict: dict, template_filepath: str) -> None:
     
     for key,config in device_dict.items():
         config = template.render(**config["data"])
-        config_payload = config.splitlines()
+        config_payload = [line.strip() for line in config.splitlines()]
         device_dict[key]["config_payload"] = config_payload
     return
 
@@ -102,6 +101,7 @@ def eapi_build_connnections(device_dict: dict) -> None:
 
 def eapi_send_config(device_dict: dict) -> None:
     """Accepts a dict of devices with "eapi_node" and "config_payload" keys and sends the config payload to each device in list"""
+    
     for device in device_dict.values():
         hostname = device.get("host")
         node = device.get("eapi_node")
@@ -110,6 +110,7 @@ def eapi_send_config(device_dict: dict) -> None:
         print(f"Sending the following config to {hostname}:")
         print(config)
         node.config(config)
+    
     return
 
 def eapi_show_ip_inter_brief(device_dict: dict) -> None:
