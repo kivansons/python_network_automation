@@ -116,6 +116,7 @@ def eapi_send_config(device_dict: dict) -> None:
     return
 if __name__ == __main__:
     device_file = "hw04_devices.yaml"
+    jinja2_template_file = "hw04_loopback_intf_conf.j2"
     device_dict = load_devices_from_yaml(device_file)
 
     # Get password from user and store in device_dict
@@ -123,8 +124,6 @@ if __name__ == __main__:
     for device in device_dict.keys():
         device_dict[device]["password"] = password
 
-
-
-    render_jinja2_config(device_dict)
+    render_jinja2_config(device_dict, jinja2_template_file)
     eapi_build_connnections(device_dict)
     eapi_send_config(device_dict)
