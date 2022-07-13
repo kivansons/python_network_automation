@@ -114,7 +114,7 @@ def eapi_send_config(device_dict: dict) -> None:
                 print(f"Missing config for {hostname}")
             print(f"Skiping {hostname} configuration")
     return
-if __name__ == __main__:
+if __name__ == "__main__":
     device_file = "hw04_devices.yaml"
     jinja2_template_file = "hw04_loopback_intf_conf.j2"
     device_dict = load_devices_from_yaml(device_file)
