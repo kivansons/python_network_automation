@@ -116,16 +116,34 @@ def eapi_send_config(device_dict: dict) -> None:
 def eapi_show_ip_inter_brief(device_dict: dict) -> None:
     """Accepts a dict of devices with 'eapi_node' and prints the output of 'show ip interface brief'"""
     for device in device_dict.values():
+        
+        # Send command to device
         hostname = device["host"]
         node = device["eapi_node"]
         command = "show ip interface brief"
         output = node.enable(command)
-        output = output[0]["result"]["output"]
+        output = output[0]["result"]["interfaces"]
 
+        # Print header
         print(f'\n{hostname}: output of "{command}"')
         print("-" * 80)
-        for line in output.splitlines():
-            print(line)
+        print(f"{'Interface':10}{'IP Address':10}{'Status':10}{'Protocol':10}")
+        
+        #Parse results of "show ip interface brief" and print line by line
+        for interface_data in output.values():
+            
+            interface = interface_data["name"]
+
+            ip_address = interface_data["interfaceAddress"]
+            ip_address = ip_address["ipAddr"]
+            ip_address = ip_address["address"] + "/" + ip_address["maskLen"]
+
+            status = interface_data["interfaceStatus"]
+            
+            protocol = interface_data["lineProtocolStatus"]
+
+            print(f"{interface:10}{ip_address:10}{status:10}{protocol:10}")
+        
 
 if __name__ == "__main__":
     device_file = "hw04_devices.yaml"
