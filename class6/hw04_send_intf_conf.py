@@ -136,7 +136,7 @@ def eapi_show_ip_inter_brief(device_dict: dict) -> None:
 
             ip_address = interface_data["interfaceAddress"]
             ip_address = ip_address["ipAddr"]
-            ip_address = ip_address["address"] + "/" + ip_address["maskLen"]
+            ip_address = ip_address["address"] + "/" + str(ip_address["maskLen"])
 
             status = interface_data["interfaceStatus"]
             
