@@ -25,7 +25,7 @@ arista3:
     intf_name: Loopback98
     intf_ip: 172.31.255.13
     intf_mask: 30
-​arista4:
+arista4:
   transport: https
   host: arista4.lasthop.io
   username: pyclass
