@@ -127,7 +127,7 @@ def eapi_show_ip_inter_brief(device_dict: dict) -> None:
         # Print header
         print(f'\n{hostname}: output of "{command}"')
         print("-" * 80)
-        print(f"{'Interface':15}{'IP Address':15}{'Status':15}{'Protocol':15}")
+        print(f"{'Interface':20}{'IP Address':20}{'Status':20}{'Protocol':20}")
         
         #Parse results of "show ip interface brief" and print line by line
         for interface_data in output.values():
@@ -142,7 +142,7 @@ def eapi_show_ip_inter_brief(device_dict: dict) -> None:
             
             protocol = interface_data["lineProtocolStatus"]
 
-            print(f"{interface:15}{ip_address:15}{status:15}{protocol:15}")
+            print(f"{interface:20}{ip_address:20}{status:20}{protocol:20}")
         
 
 if __name__ == "__main__":
