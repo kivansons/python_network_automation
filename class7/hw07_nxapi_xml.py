@@ -34,7 +34,7 @@ device = Device(
 output = device.show("show interface Ethernet1/1")
 
 # Unpack XML data and get desired values then print
-output = output.find("TABLE_interface").find("ROW_interface")
+output = output.find("body").find("TABLE_interface").find("ROW_interface")
 interface = output.find("interface")
 state = output.find("state")
 mtu = output.find("eth_mtu")
