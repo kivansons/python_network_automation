@@ -71,4 +71,3 @@ config_list = [
 ]
 
 config_results = device.config_list(config_list)
-pprint(config_results)
