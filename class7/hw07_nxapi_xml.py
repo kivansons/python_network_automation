@@ -29,9 +29,16 @@ device = Device(
     port=8443,
     verify=False,
 )
-commands = [
-    "show interface Ethernet1/1"
-]
-output = device.show_list(commands)
-for result in output:
-    pprint(etree.tostring(result).decode())
+
+# Send "show interface Ethernet1/1" and store XML result
+output = device.show("show interface Ethernet1/1")
+
+# Unpack XML data and get desired values then print
+output = output.find("TABLE_interface").find("ROW_interface")
+interface = output.find("interface")
+state = output.find("state")
+mtu = output.find("eth_mtu")
+print("\n\n")
+print(f"Formatted Interface Information")
+print("-" * 80)
+print(f"Interface: {interface.text}; State: {state.text}; MTU: {mtu.text}")
