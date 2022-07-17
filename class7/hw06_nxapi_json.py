@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 6a. Create an nxapi_plumbing "Device" object for nxos1.
 The api_format should be "jsonrpc" and the transport should be "https" (port 8443).
