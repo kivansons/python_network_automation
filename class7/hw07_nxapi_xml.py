@@ -33,4 +33,5 @@ commands = [
     "show interface Ethernet1/1"
 ]
 output = device.show_list(commands)
-pprint(etree.tostring(output).decode())
+for result in output:
+    pprint(etree.tostring(result).decode())
