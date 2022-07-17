@@ -7,7 +7,6 @@ parse the output, and print out the following information:
 
 Interface: Ethernet1/1; State: up; MTU: 1500
 """
-import requests
 from pprint import pprint
 from getpass import getpass
 from nxapi_plumbing import Device
@@ -22,5 +21,18 @@ device = Device(
     verify=False,
 )
 
+# Send show interface command and print raw data
 output = device.show("show interface Ethernet1/1")
+print('raw output of "show interface Ethernet1/1"')
+print("-" * 80)
 pprint(output)
+
+# Unpack data and get desired values then print
+output = output["TABLE_interface"]["ROW_interface"]
+interface = output["interface"]
+state = output["state"]
+mtu = output["eth_mtu"]
+print("\n\n")
+print(f"Formatted interface information")
+print("-" * 80)
+print(f"Interface: {interface}; State: {state}; MTU: {mtu}")
