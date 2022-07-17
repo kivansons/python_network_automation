@@ -11,12 +11,13 @@ Interface: Ethernet1/1; State: up; MTU: 1500
 7c. Using the nxapi_plumbing config_list() method, configure two loopbacks on nxos1 including interface descriptions. Pick random loopback interface numbers between 100 and 199.
 
 """
+
 from doctest import OutputChecker
 from pprint import pprint
 from getpass import getpass
 from nxapi_plumbing import Device
 from lxml import etree
-
+from random import randint
 device = Device(
     api_format="xml",
     host="nxos1.lasthop.io",
@@ -53,7 +54,7 @@ output_list = device.show_list(commands)
 
 for command,result in zip(commands,output_list):
     print("\n\n")
-    print(f'XML result from "{command}')
+    print(f'XML result from "{command}"')
     print("-" * 80)
     pprint(etree.tostring(result).decode())
 
@@ -62,3 +63,12 @@ for command,result in zip(commands,output_list):
 configure two loopbacks on nxos1 including interface descriptions.
 Pick random loopback interface numbers between 100 and 199.
 """
+config_list = [
+    f"interface loopback {randint(100,199)}",
+    "description first_random_loopback_interface_for_exercise_7c",
+    f"interface loopback {randint(100,199)}",
+    "description second_random_loopback_interface_for_exercise_7c",
+]
+
+config_results = device.config_list(config_list)
+pprint(config_results)
