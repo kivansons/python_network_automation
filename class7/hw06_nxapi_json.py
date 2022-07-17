@@ -22,5 +22,5 @@ device = Device(
     verify=False,
 )
 
-output = device.show("show hostname")
-print(output)
+output = device.show("show interface Ethernet1/1")
+pprint(output)
