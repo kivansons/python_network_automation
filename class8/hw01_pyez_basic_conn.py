@@ -11,4 +11,11 @@ from pprint import pprint
 
 srx2 = Device(host="srx2.lasthop.io", user="pyclass", password=getpass())
 srx2.open()
-pprint(srx2.facts)
+
+print("Getting and printing device facts...")
+print("-" * 80)
+facts = srx2.facts
+pprint(facts)
+print("\n\n")
+print(f"The device hostname is: {facts['hostname']}")
+
