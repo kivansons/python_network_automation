@@ -20,6 +20,7 @@ from jnpr.junos.op.arp import ArpTable
 from pprint import pprint
 
 def check_connected(jnpr_device: Device) -> None:
+    """Accept a pyez junper device and check if device is connected"""
     print("\n\n")
     if jnpr_device.connected:
         print(f"Device {jnpr_device.hostname} is connected!")
@@ -29,9 +30,28 @@ def check_connected(jnpr_device: Device) -> None:
     return
 
 def gather_routes(jnpr_device: Device) -> RouteTable:
+    """Accept a pyez junper device, gather the device route table then return the routes"""
     routes = RouteTable(jnpr_device)
     routes.get()
     return routes
+
+def gather_arp_table(jnpr_device: Device) -> ArpTable:
+    """Accept a pyez junper device, gather the device arp table then return the table"""
+    arp_table = ArpTable(jnpr_device)
+    arp_table.get()
+    return arp_table
+
+def print_output(jnpr_device: Device, routes: RouteTable, arp_table: ArpTable) -> None:
+    """A function that takes the Juniper PyEZ Device object, the routing table,
+     and the ARP table and then prints out the: hostname, NETCONF port, username, routing table, ARP table"""
+    output = {}
+    output["hostname"] = jnpr_device.hostname
+    output["netconf_port"] = jnpr_device.port
+    output["username"] = jnpr_device.user
+    output["route_table"] = routes.items()
+    output["arp_table"] = arp_table.items()
+
+    pprint(output)
 
 if __name__ == "__main__":
     srx2_device = Device(**srx2)
@@ -39,4 +59,7 @@ if __name__ == "__main__":
     check_connected(srx2_device)
 
     srx2_routes = gather_routes(srx2_device)
-    pprint(srx2_routes)
+    srx2_arp_table = gather_arp_table(srx2_device)
+
+    print_output(srx2_device, srx2_routes, srx2_arp_table)
+    
