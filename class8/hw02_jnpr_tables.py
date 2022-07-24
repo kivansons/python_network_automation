@@ -52,14 +52,18 @@ def print_output(jnpr_device: Device, routes: RouteTable, arp_table: ArpTable) -
     output["arp_table"] = arp_table.items()
 
     pprint(output)
+    return None
 
 if __name__ == "__main__":
+    # Build connection and check outcome
     srx2_device = Device(**srx2)
     srx2_device.open()
     check_connected(srx2_device)
 
+    # Gather route and arp tables
     srx2_routes = gather_routes(srx2_device)
     srx2_arp_table = gather_arp_table(srx2_device)
 
+    # Print gathered facts
     print_output(srx2_device, srx2_routes, srx2_arp_table)
     
