@@ -45,7 +45,7 @@ srx2_device.open()
 srx2_routes = gather_routes(srx2_device)
 print(f"Printing routes from {srx2_device.hostname}")
 print("-" * 80)
-pprint(srx2_routes)
+pprint(srx2_routes.items())
 
 # Send new routes
 ROUTES_CONFIG_PATH = "hw04_routes.txt"
@@ -56,4 +56,4 @@ load_conf_from_file(ROUTES_CONFIG_PATH, srx2_device)
 srx2_routes = gather_routes(srx2_device)
 print(f"Printing routes from {srx2_device.hostname}")
 print("-" * 80)
-pprint(srx2_routes)
+pprint(srx2_routes.items())
