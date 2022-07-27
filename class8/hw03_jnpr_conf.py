@@ -34,7 +34,7 @@ from jnpr.junos.utils.config import Config
 from jnpr_devices import srx2
 
 # Build connection to device
-srx2_device = Device(srx2)
+srx2_device = Device(**srx2)
 srx2_device.open()
 
 # Build device config obj from device connection
