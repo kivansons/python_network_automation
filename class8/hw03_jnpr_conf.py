@@ -43,3 +43,10 @@ srx2_device_conf = Config(srx2_device)
 # Lock device
 lock_result = srx2_device_conf.lock()
 print(f"Was config lock sucessfull?: {lock_result}")
+input("Enter to continue")
+
+# Try and lock device config again
+print("Attempting to lock the device config again...")
+lock_result = srx2_device_conf.lock()
+print(f"Was config lock sucessfull?: {lock_result}")
+input("Enter to continue")
