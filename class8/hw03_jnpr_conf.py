@@ -49,7 +49,7 @@ input("Enter to continue")
 """3b. Use the "load" method to stage a configuration using a basic set command, for example, "set system host-name python4life"."""
 print("Sending config to device:")
 config_cmd = "set system host-name python4life"
-srx2_device_conf.load(config_cmd, format=set, merge=True)
+srx2_device_conf.load(config_cmd, format="set", merge=True)
 
 """
 3c. Print the diff of the current configuration with the staged configuration. Your output should look similar to the following:
