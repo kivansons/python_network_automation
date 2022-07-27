@@ -41,5 +41,5 @@ srx2_device.open()
 srx2_device_conf = Config(srx2_device)
 
 # Lock device
-srx2_device_conf.lock()
-
+lock_result = srx2_device_conf.lock()
+print(f"Was config lock sucessfull?: {lock_result}")
