@@ -33,6 +33,16 @@ from jnpr.junos.exception import LockError
 from jnpr.junos.utils.config import Config
 from jnpr_devices import srx2
 
+def try_lock(device: Config) -> bool:
+  # Try and lock device config
+  print("Attempting to lock the device config")
+  try:
+    lock_result = device.lock()
+  except LockError:
+    lock_result = False
+  print(f"Was config lock sucessfull?: {lock_result}")
+  return lock_result
+
 # Build connection to device
 srx2_device = Device(**srx2)
 srx2_device.open()
@@ -41,15 +51,9 @@ srx2_device.open()
 srx2_device_conf = Config(srx2_device)
 
 # Lock device
-lock_result = srx2_device_conf.lock()
-print(f"Was config lock sucessfull?: {lock_result}")
+try_lock(srx2_device_conf)
 input("Enter to continue")
 
 # Try and lock device config again
-print("Attempting to lock the device config again...")
-try:
-  lock_result = srx2_device_conf.lock()
-except LockError:
-  lock_result = False
-print(f"Was config lock sucessfull?: {lock_result}")
+try_lock(srx2_device_conf)
 input("Enter to continue")
