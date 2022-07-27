@@ -15,18 +15,6 @@ Users currently editing the configuration:
 
 Add code to attempt to lock the configuration again.
 Gracefully handle the "LockError" exception (meaning the configuration is already locked).
-
-3b. Use the "load" method to stage a configuration using a basic set command, for example, "set system host-name python4life".
-
-3c. Print the diff of the current configuration with the staged configuration. Your output should look similar to the following:
-
-[edit system]
--  host-name srx2;
-+  host-name python4life;
-
-
-3d. Rollback the staged configuration. 
-Once again, print out the diff of the staged and the current configuration (which at this point should be None).
 """
 from jnpr.junos import Device
 from jnpr.junos.exception import LockError
@@ -34,7 +22,7 @@ from jnpr.junos.utils.config import Config
 from jnpr_devices import srx2
 
 def try_lock(device: Config) -> bool:
-  # Try and lock device config
+  """Try and lock device config: Returns outcome as bool"""
   print("Attempting to lock the device config")
   try:
     lock_result = device.lock()
@@ -57,3 +45,28 @@ input("Enter to continue")
 # Try and lock device config again
 try_lock(srx2_device_conf)
 input("Enter to continue")
+
+"""3b. Use the "load" method to stage a configuration using a basic set command, for example, "set system host-name python4life"."""
+print("Sending config to device:")
+config_cmd = "set system host-name python4life"
+srx2_device_conf.load(config_cmd, format=set, merge=True)
+
+"""
+3c. Print the diff of the current configuration with the staged configuration. Your output should look similar to the following:
+
+[edit system]
+-  host-name srx2;
++  host-name python4life;
+"""
+print("Config diff is:")
+print(srx2_device_conf.diff())
+
+"""
+3d. Rollback the staged configuration. 
+Once again, print out the diff of the staged and the current configuration (which at this point should be None).
+"""
+print("Rolling back config:")
+srx2_device_conf.rollback()
+
+print("Config diff is:")
+print(srx2_device_conf.diff())
