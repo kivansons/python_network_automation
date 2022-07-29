@@ -28,24 +28,46 @@ from jnpr_devices import srx2
 from pprint import pprint
 from hw02_jnpr_tables import gather_routes
 
+
 def load_conf_from_file(filepath: str, device: Device, merge: bool = True) -> None:
     """Load config from passed filepath and commit to passed device"""
     config = Config(device)
     config.lock()
     config.load(path=filepath, format="text", merge=merge)
-    config.commit()
-    config.unlock
+    if config.diff() is not None:
+        config.commit()
+    config.unlock()
+    
     return None
 
-# Build connection to device
+
+def remove_routes(device: Device) -> None:
+    """Remove routes added for exercise from passed device"""
+    config = Config(device)
+    config.lock()
+    config.load(
+        "delete routing-options static route 203.0.113.42/32", format="set", merge=True
+    )
+    config.load(
+        "delete routing-options static route 203.0.113.223/32", format="set", merge=True
+    )
+    print("\n")
+    print("Removing example routes")
+    if config.diff() is not None:
+        config.commit
+    config.unlock()
+    
+    return None
+    
+    # Build connection to device
 srx2_device = Device(**srx2)
 srx2_device.open()
 
 # Print out routes
-srx2_routes = gather_routes(srx2_device)
+srx2_initial_routes = gather_routes(srx2_device)
 print(f"Printing routes from {srx2_device.hostname}")
 print("-" * 80)
-pprint(srx2_routes.items())
+pprint(srx2_initial_routes.items())
 
 # Send new routes
 ROUTES_CONFIG_PATH = "hw04_routes.txt"
@@ -53,7 +75,10 @@ print(f"Sending routes config to {srx2_device.hostname}")
 load_conf_from_file(ROUTES_CONFIG_PATH, srx2_device)
 
 # Print out routes
-srx2_routes = gather_routes(srx2_device)
+srx2_new_routes = gather_routes(srx2_device)
 print(f"Printing routes from {srx2_device.hostname}")
 print("-" * 80)
-pprint(srx2_routes.items())
+pprint(srx2_new_routes.items())
+
+# Clean up routes
+remove_routes(srx2_device)
