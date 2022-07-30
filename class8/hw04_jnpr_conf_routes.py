@@ -15,8 +15,9 @@ routing-options {
 }
 
 
-4c. Reusing your gather_routes() function from exercise2, retrieve the routing table before and after you configuration change. Print out the differences in the routing table (before and after the change). 
-o simplify the problem, you can assume that the only change will be *additional* routes added by your script.
+4c. Reusing your gather_routes() function from exercise2, retrieve the routing table before and after you configuration change.
+Print out the differences in the routing table (before and after the change).
+to simplify the problem, you can assume that the only change will be *additional* routes added by your script.
 
 4d. Using PyEZ delete the static routes that you just added. You can use either load() and set operations or load() plus a configuration file to accomplish this.
 
@@ -37,7 +38,7 @@ def load_conf_from_file(filepath: str, device: Device, merge: bool = True) -> No
     if config.diff() is not None:
         config.commit()
     config.unlock()
-    
+
     return None
 
 
@@ -56,29 +57,47 @@ def remove_routes(device: Device) -> None:
     if config.diff() is not None:
         config.commit
     config.unlock()
-    
+
     return None
-    
+
+
+def compare_routes(starting_routes, updated_routes) -> list:
+    """Compares two route lists and returns all new routes"""
+    new_routes = []
+    for route in updated_routes.keys():
+        if route not in starting_routes.keys():
+            new_routes.append(route)
+
+    return new_routes.copy()
+
+
+def main() -> None:
     # Build connection to device
-srx2_device = Device(**srx2)
-srx2_device.open()
+    srx2_device = Device(**srx2)
+    srx2_device.open()
 
-# Print out routes
-srx2_initial_routes = gather_routes(srx2_device)
-print(f"Printing routes from {srx2_device.hostname}")
-print("-" * 80)
-pprint(srx2_initial_routes.items())
+    # Print out routes
+    srx2_initial_routes = gather_routes(srx2_device)
+    print(f"Printing routes from {srx2_device.hostname}")
+    print("-" * 80)
+    pprint(srx2_initial_routes.items())
 
-# Send new routes
-ROUTES_CONFIG_PATH = "hw04_routes.txt"
-print(f"Sending routes config to {srx2_device.hostname}")
-load_conf_from_file(ROUTES_CONFIG_PATH, srx2_device)
+    # Send new routes
+    ROUTES_CONFIG_PATH = "hw04_routes.txt"
+    print(f"Sending routes config to {srx2_device.hostname}")
+    load_conf_from_file(ROUTES_CONFIG_PATH, srx2_device)
 
-# Print out routes
-srx2_new_routes = gather_routes(srx2_device)
-print(f"Printing routes from {srx2_device.hostname}")
-print("-" * 80)
-pprint(srx2_new_routes.items())
+    # Print out new routes
+    srx2_new_routes = gather_routes(srx2_device)
+    new_routes = compare_routes(srx2_initial_routes, srx2_new_routes)
+    print("\n\n")
+    print(f"{srx2_device.hostname} has the following new routes")
+    print("-" * 80)
+    pprint(new_routes)
 
-# Clean up routes
-remove_routes(srx2_device)
+    # Clean up routes
+    remove_routes(srx2_device)
+
+
+if __name__ == "__main__":
+    main()
