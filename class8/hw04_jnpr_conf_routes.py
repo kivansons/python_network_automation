@@ -55,7 +55,7 @@ def remove_routes(device: Device) -> None:
     print("\n")
     print("Removing example routes")
     if config.diff() is not None:
-        config.commit
+        config.commit()
     config.unlock()
 
     return None
