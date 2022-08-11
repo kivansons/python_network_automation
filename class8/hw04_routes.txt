@@ -1,0 +1,6 @@
+routing-options {
+    static {
+        route 203.0.113.42/32 discard;
+        route 203.0.113.223/32 discard;
+    }
+}
