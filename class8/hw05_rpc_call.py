@@ -30,13 +30,22 @@ print(etree.tostring(xml_out, pretty_print=True, encoding="unicode"))
 from jnpr.junos import Device
 from lxml import etree
 from getpass import getpass
+from pprint import pprint
 from jnpr_devices import srx2
 
 srx2_device = Device(**srx2)
 srx2_device.open()
 
+# show version | display xml rpc
+# <get-software-information>
+xml_show_version = srx2_device.rpc.get_software_information()
+xml_show_version = etree.tostring(xml_show_version, encoding="unicode")
+pprint(xml_show_version)
+
+
+
 # show interfaces terse | display xml rpc
 # <get-interface-information>
-xml_out = srx2_device.rpc.get_interface_information()
-xml_out = etree.tostring(xml_out, encoding="unicode")
-print(xml_out)
+xml_interface_info = srx2_device.rpc.get_interface_information(terse=True)
+xml_interface_info = etree.tostring(xml_interface_info, encoding="unicode")
+pprint(xml_interface_info)
