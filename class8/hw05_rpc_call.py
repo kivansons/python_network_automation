@@ -46,6 +46,6 @@ pprint(xml_show_version)
 
 # show interfaces terse | display xml rpc
 # <get-interface-information>
-xml_interface_info = srx2_device.rpc.get_interface_information(terse=True)
-xml_interface_info = etree.tostring(xml_interface_info, encoding="unicode")
+xml_interface_info = srx2_device.rpc.get_interface_information(interface_name="fe-0/0/7", terse=True, normalize=True)
+xml_interface_info = etree.tostring(xml_interface_info, pretty_print=True, encoding="unicode")
 pprint(xml_interface_info)
