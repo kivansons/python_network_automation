@@ -38,4 +38,5 @@ srx2_device.open()
 # show interfaces terse | display xml rpc
 # <get-interface-information>
 xml_out = srx2_device.rpc.get_interface_information()
+xml_out = etree.tostring(xml_out, encoding="unicode")
 print(xml_out)
