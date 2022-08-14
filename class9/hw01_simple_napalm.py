@@ -36,12 +36,19 @@ def build_napalm_connection(device: dict):
 def main():
     napalm_connections = []
 
-    for device in net_devices:
+    for key in net_devices.keys():
+        device = net_devices[key]
         conn = build_napalm_connection(device)
         napalm_connections.append(conn)
 
     for connection in napalm_connections:
+        print("\n")
+        print("Printing connection info")
         pprint(connection)
+        print("Printing device facts")
+        print("-" * 80)
+        pprint(connection.get_facts())
+        connection.close()
 
 if __name__ == "__main__":
     main()
