@@ -21,15 +21,24 @@ from pprint import pprint
 from my_devices import net_devices
 
 def build_napalm_connection(device: dict):
+    """Opens a napalm connection from passed device and returns connection object"""
+
+    # Copy passed mutable object so orginal is not modified
+    device = device.copy()
+
+
     device_type = device.pop("device_type")
     driver = get_network_driver(device_type)
     device_connection = driver(**device)
-    return device_connection.open()
+    device_connection.open()
+    return device_connection
 
 def main():
     napalm_connections = []
+
     for device in net_devices:
-        napalm_connections.append(build_napalm_connection(device))
+        conn = build_napalm_connection(device)
+        napalm_connections.append(conn)
 
     for connection in napalm_connections:
         pprint(connection)
