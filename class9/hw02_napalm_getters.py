@@ -27,15 +27,23 @@ from my_functions import build_napalm_connection
 
 
 def main():
+    # Build connections to devices
     net_connections = []
     for device in net_devices.values():
         net_connect = build_napalm_connection(device)
         net_connections.append(net_connect)
 
+    # Print device arp tables
     for connection in net_connections:
         print("Printing Device ARP Table")
         print("-" * 80)
         pprint(connection.get_arp_table())
+
+    # Print device NTP config
+    for connection in net_connections:
+        print("Printing Device NTP config")
+        print("=" * 80)
+        pprint(connection.get_ntp_peers())
 
 if __name__ == "__main__":
     main()
