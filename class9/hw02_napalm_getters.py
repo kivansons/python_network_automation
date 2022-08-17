@@ -43,7 +43,10 @@ def main():
     for connection in net_connections:
         print("Printing Device NTP config")
         print("=" * 80)
-        pprint(connection.get_ntp_peers())
+        try:
+            pprint(connection.get_ntp_peers())
+        except NotImplementedError:
+            print("Error: get_NTP_peers() method not implemented for this device.")
 
 if __name__ == "__main__":
     main()
