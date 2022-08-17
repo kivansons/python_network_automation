@@ -33,6 +33,8 @@ def main():
         net_connections.append(net_connect)
 
     for connection in net_connections:
+        print("Printing Device ARP Table")
+        print("-" * 80)
         pprint(connection.get_arp_table())
 
 if __name__ == "__main__":
