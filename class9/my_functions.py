@@ -34,4 +34,4 @@ def create_backup(device_connection):
     """Accepts an open napalm connection and creates a backup file"""
     backup = device_connection.get_config()
     print(backup)
-    return None
+    return backup

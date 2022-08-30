@@ -23,7 +23,7 @@ and ensure that the configurations from both cisco3 and arista1 are backed up pr
 """
 from pprint import pprint
 from my_devices import net_devices
-from my_functions import build_napalm_connection
+from my_functions import build_napalm_connection, create_backup
 
 
 def main():
@@ -48,6 +48,12 @@ def main():
         except NotImplementedError:
             print("Error: get_NTP_peers() method not implemented for this device.")
 
+    # Create backup
+    for connection in net_connections:
+        print("Creating config backups")
+        print("-" * 80)
+        print(create_backup(connection))
+        
 if __name__ == "__main__":
     main()
 
