@@ -37,8 +37,8 @@ def create_backup(device_connection):
     filename = device_connection.get_facts()
     filename = filename["hostname"]
     timestr = time.strftime("%Y%m%d_%H%M%S")
-    filename = f"{filename}{timestr}"
-    
+    filename = f"{filename}_{timestr}"
+
     # Get device running configuration
     backup = device_connection.get_config()
     backup = backup["running"]
