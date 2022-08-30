@@ -17,6 +17,7 @@ and ensure that the configurations from both cisco3 and arista1 are backed up pr
 
 """
 from napalm import get_network_driver
+import time
 
 def build_napalm_connection(device: dict):
     """Opens a napalm connection from passed device and returns connection object"""
@@ -31,7 +32,19 @@ def build_napalm_connection(device: dict):
     return device_connection
 
 def create_backup(device_connection):
-    """Accepts an open napalm connection and creates a backup file"""
+    """Accepts an open napalm connection and creates a backup file of the running config"""
+    # Get device hostname for filename
+    filename = device_connection.get_facts()
+    filename = filename["hostname"]
+    timestr = time.strftime("%Y%m%d_%H%M%S")
+    filename = f"{filename}{timestr}"
+    
+    # Get device running configuration
     backup = device_connection.get_config()
-    print(backup)
-    return backup
+    backup = backup["running"]
+
+    # Write config to file
+    with open(f"{filename}.backup", "w") as backup_file:
+        backup_file.write(backup)
+
+    return None

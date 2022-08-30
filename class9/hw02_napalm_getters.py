@@ -52,7 +52,7 @@ def main():
     for connection in net_connections:
         print("Creating config backups")
         print("-" * 80)
-        print(create_backup(connection))
+        create_backup(connection)
         
 if __name__ == "__main__":
     main()
