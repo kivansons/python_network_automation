@@ -34,8 +34,8 @@ def main():
     for connection in net_connections:
         print("\n")
         print("-" * 80)
-        print(f"Loading config candidiate for {connection.hostname}")
-        connection.load_merge_candiate(filename=f"{connection.hostname}-loopbacks")
+        print(f"Loading config candidate for {connection.hostname}")
+        connection.load_merge_candidate(filename=f"{connection.hostname}-loopbacks")
         diff = connection.compare_config()
         print("Config diff is:")
         print("-" * 80)
