@@ -44,6 +44,15 @@ def main():
         print("Config diff is:")
         print("-" * 80)
         print(diff)
+        if diff:
+            print("Commiting config")
+            connection.commit_config()
+        diff = connection.compare_config()
+        print("\n")
+        print("-" * 80)
+        print("Config diff after commit")
+        print(diff)
+        connection.close()
 
 
 
