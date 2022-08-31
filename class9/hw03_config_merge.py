@@ -36,7 +36,11 @@ def main():
         print("-" * 80)
         print(f"Loading config candidate for {connection.hostname}")
         connection.load_merge_candidate(filename=f"{connection.hostname}-loopbacks")
-        diff = connection.compare_config()
+        try:
+            diff = connection.compare_config()
+        except napalm.base.exceptions.MergeConfigException:
+            print(f"failed to merge config for {connection.hostname} skipping..")
+            continue
         print("Config diff is:")
         print("-" * 80)
         print(diff)
