@@ -37,7 +37,7 @@ def main():
         print(f"Loading config candidate for {connection.hostname}")
         try:
             connection.load_merge_candidate(filename=f"{connection.hostname}-loopbacks")
-        except MergeConfigException:
+        except:
             print(f"Failed to merge config for {connection.hostname} skipping..")
             continue
         diff = connection.compare_config()
