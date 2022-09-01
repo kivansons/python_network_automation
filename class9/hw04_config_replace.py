@@ -26,14 +26,32 @@ Do not actually perform the commit_config as part of this exercise.
 from my_functions import build_napalm_connection, create_checkpoint
 from my_devices import net_devices
 
+NXOS_CONFIG_CANDIDATE = "nxos1.lasthop.io_add_loopback.txt"
 
 def main():
     nxos1 = net_devices["nxos1"]
     conn = build_napalm_connection(nxos1)
 
     create_checkpoint(conn)
-    conn.close()
     
+    conn.load_replace_candidate(NXOS_CONFIG_CANDIDATE)
+    print(f"Replacement config staged for {conn.hostname} printing conf diff...")
+    print("-" * 80)
+    print(conn.compare_config())
+    print("-" * 80)
+
+    print("\n\n")
+    print(f"discarding pending config for {conn.hostname}...")
+    conn.discard_config()
+    print("-" * 80)
+    print("Config diff is now...")
+    print("-" * 80)
+    print(conn.compare_config())
+    print("-" * 80)
+
+    conn.close()
+
+
 if __name__ == "__main__":
     main()
 
