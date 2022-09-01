@@ -31,20 +31,30 @@ def build_napalm_connection(device: dict):
     device_connection.open()
     return device_connection
 
-def create_backup(device_connection):
+def create_backup(napalm_connection):
     """Accepts an open napalm connection and creates a backup file of the running config"""
     # Get device hostname for filename
-    filename = device_connection.get_facts()
+    filename = napalm_connection.get_facts()
     filename = filename["hostname"]
     timestr = time.strftime("%Y%m%d_%H%M%S")
     filename = f"{filename}_{timestr}"
 
     # Get device running configuration
-    backup = device_connection.get_config()
+    backup = napalm_connection.get_config()
     backup = backup["running"]
 
     # Write config to file
     with open(f"{filename}.backup", "w") as backup_file:
         backup_file.write(backup)
 
+    return None
+
+def create_checkpoint(napalm_connection):
+    """Create a config checkpoint and write to disk"""
+    filename = f"{napalm_connection.hostname}-checkpoint.txt"
+    checkpoint_conf = napalm_connection._get_checkpoint_file()
+
+    with open(filename, "w") as f:
+        f.write(checkpoint_conf)
+    
     return None
