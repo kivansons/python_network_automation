@@ -21,4 +21,11 @@ net_devices = {
         "password": getpass(),
         "optional_args": {},
     },
+    "nxos1": {
+        "hostname": "nxos1.lasthop.io",
+        "device_type": "nxos",
+        "username": "pyclass",
+        "password": getpass(),
+        "optional_args": {"port":8443}
+    },
 }
