@@ -25,9 +25,10 @@ def main():
     for device in network_devices:
         output = ssh_command(device, "show version")
         print("\n")
-        print("-" * 80)
+        print(f'Output of {device["host"]} "show version" command')
+        print("#" * 80)
         print(output)
-        print("-" * 80)
+        print("#" * 80)
     print("\n\n")
     print("*" * 80)
     time_end = time()
