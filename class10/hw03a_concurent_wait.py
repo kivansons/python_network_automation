@@ -23,7 +23,7 @@ def main():
     # Create a thread for each "show version" netmiko ssh connection and add to thread list
     thread_list = []
     for device in network_devices:
-        thread = pool.submit(ssh_command2, (device, "show version"))
+        thread = pool.submit(ssh_command2,device, "show version")
         thread_list.append(thread)
 
     # wait for all threads to finish 
