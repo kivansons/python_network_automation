@@ -17,11 +17,10 @@ def main():
     for device in network_devices:
         arp_cmds.append(generate_show_arp_cmd(device))
 
-    payloads = zip(network_devices,arp_cmds)
 
     # Create a Process for each "show version" netmiko ssh connection and add to process list
     with ProcessPoolExecutor(MAX_PROCESSES) as pool:
-        results = pool.map(ssh_command2, *payloads)
+        results = pool.map(ssh_command2, network_devices, arp_cmds)
         
         # Print process results as they finish 
         for result in results:
