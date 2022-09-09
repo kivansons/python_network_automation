@@ -12,15 +12,15 @@ def main():
     time_start = time()
     MAX_PROCESSES = 8
     
-    
-    
     # Create a Process for each "show version" netmiko ssh connection and add to process list
     with ProcessPoolExecutor(MAX_PROCESSES) as pool:
+        process_list = []
         for device in network_devices:
             process = pool.submit(ssh_command2, device, "show version")
-
-            # Print process results as they finish 
-        for process in as_completed(pool):
+            process_list.append(process)
+        
+        # Print process results as they finish 
+        for process in as_completed(process_list):
             print("Show version result:")
             print(process.result())
 
